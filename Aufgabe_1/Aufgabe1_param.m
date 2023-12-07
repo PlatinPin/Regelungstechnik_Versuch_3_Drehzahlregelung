@@ -1,0 +1,45 @@
+clear all;
+K = 30e-3;
+J = 4000e-7;
+R = 6;
+L = 120e-6;
+
+opt=simset('MaxStep', 0.001);
+simout=sim("Aufgabe1_sim.slx" , [0,20], opt);
+time=simout.drehmoment.time;
+drehmoment=simout.drehmoment.signals.values;
+drehzahl=simout.drehzahl.signals.values;
+strom=simout.strom.signals.values;
+figure(1); clf;
+hold on;
+title('Aufgabe 1');
+subplot(3,1,1);
+plot(time, drehmoment, 'r', 'LineWidth', 2);
+ylabel('Drehmoment [Nm]');
+xlabel('Zeit[t]');
+subplot(3,1,2);
+plot(time, drehzahl, 'LineWidth', 2);
+ylabel('Drehzahl [rad/s]');
+xlabel('Zeit[t]');
+subplot(3,1,3);
+plot(time, strom, 'g', 'LineWidth', 2);
+ylabel('Strom [A]');
+xlabel('Zeit[t]');
+hold off;
+
+drehmoment_amp = drehmoment*1000;
+f=figure(2); clf;
+title('Aufgabe 1');
+hold on;
+yyaxis left;
+plot(time, drehzahl,'b', 'LineWidth', 2);
+plot(time, drehmoment_amp, 'r', 'LineWidth', 2);
+ylabel('Drehzahl [rad/s], Drehmoment * 1000 [Nm]');
+xlabel('Zeit[t]');
+yyaxis right;
+plot(time, strom, 'g', 'LineWidth', 2);
+ylabel('Strom [A]');
+
+legend("Drehzahl [rad/s]", "Drehmoment * 1000 [Nm]", "Strom[A]");
+hold off;
+exportgraphics(f,'./Schaubilder/Aufgabe1.png','Resolution',300);
